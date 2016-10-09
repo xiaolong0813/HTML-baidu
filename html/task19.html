@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style media="screen">
+            .num{
+                display: inline-block;
+                background-color: red;
+                color: white;
+                font-size: 20px;
+                font-weight: bolder;
+                text-align: center;
+                line-height: 80px;
+                width: 80px;
+                height: 80px;
+                margin-left: 20px;
+                margin-top: 10px;
+            }
+            .chart{
+                /*position: relative;*/
+                width: 1000px;
+                height: 300px;
+                border: 2px solid red;
+                /*padding-bottom: 0px;*/
+            }
+            .numEnter{
+                width: 1000px;
+                height: 100px;
+                border: 2px solid red;
+            }
+            .column{
+                /*position: absolute;*/
+                float: left;
+                /*display: inline-block;*/
+                background-color: red;
+                margin-left: 60px;
+                width: 20px
+            }
+        </style>
+    </head>
+    <body>
+        <div class="form">
+            <input type="text" name="name" id="input">
+            <button type="button" name="button" id="leftIn">左侧入</button>
+            <button type="button" name="button" id="rightIn">右侧入</button>
+            <button type="button" name="button" id="leftOut">左侧出</button>
+            <button type="button" name="button" id="rightOut">右侧出</button>
+            <button type="button" name="button" id="up">升序排序</button>
+            <button type="button" name="button" id="down">降序排序</button>
+        </div>
+        <div class="numEnter"></div>
+        <div class="chart"></div>
+
+
+        <script src="../JS/task19-js.js">
+        </script>
+    </body>
+</html>

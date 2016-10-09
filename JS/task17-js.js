@@ -64,13 +64,13 @@ var pageState = {
  */
 //根据数值确定颜色
 function colorSelector(n) {
-    if (n < 60) {
+    if (n < 120) {
         return 'green'
-    } else if (n < 120) {
-        return 'blue'
-    } else if (n < 180) {
-        return 'red'
     } else if (n < 240) {
+        return 'blue'
+    } else if (n < 360) {
+        return 'red'
+    } else if (n < 480) {
         return 'purple'
     } else {
         return 'black'
@@ -79,11 +79,21 @@ function colorSelector(n) {
 //根据时间选择对应的宽度
 function widSelector(s) {
     if (s === 'day') {
-        return 5
+        return 10
     } else if (s === 'week') {
-        return 12
+        return 50
     } else if (s === 'month') {
-        return 24
+        return 80
+    }
+}
+//根据时间选择对应的间距
+function space(s) {
+    if (s === 'day') {
+        return 2
+    } else if (s === 'week') {
+        return 30
+    } else if (s === 'month') {
+        return 80
     }
 }
 //根据所选的城市和时间，定义指标数据（全局变量里）
@@ -95,11 +105,13 @@ function dataCalculate(city, gratime) {
         var week = {}
         var sum = 0
         var i = 1
+        var k = Object.keys(cell)
         for (var key in cell) {
             sum += cell[key]
             var dat = new Date(key)
             var day = dat.getDay()
             if (day === 0) {
+                k.splice(0,i)
                 var average = sum / i
                 // log(key,i)
                 sum = 0
@@ -108,7 +120,8 @@ function dataCalculate(city, gratime) {
             }
             i++
         }
-        // log(week)
+        // log(k,sum,cell)
+        week[k[k.length - 1]] = sum / k.length
         return week
     } else if (gratime === 'month') {
         var month = {}
@@ -135,7 +148,7 @@ function renderChart() {
     var chart = document.querySelector('.aqi-chart-wrap')
     var keys = Object.keys(chartData)
     var len = keys.length
-    var co = 0.6
+    var co = 1.2
     var column = document.createElement('div')
     // column.id = 'column-1'
     // column.style.height = chartData['2016-01-01'] * co
@@ -150,13 +163,14 @@ function renderChart() {
     for(var key in chartData) {
         var height = chartData[key] * co
         var wid = widSelector(pageState.nowGraTime)
+        var spaceC = space(pageState.nowGraTime)
         var color = colorSelector(height)
-        var left = (600 - len * wid) / 2 + (wid + 1) * i++
+        var left = (1200 - len * (wid + spaceC)) / 2 + (wid + spaceC) * i++
         var t = `<div id=${key} class='columnCell' style="height: ${height}px; width: ${wid}px; position: absolute; background:${color}; display: block; left: ${left}px; bottom: 0px;"></div>`
         // var t = `<div id="column-1" style="height: ${height}px; width: ${wid}px; background: ${color}; display: inline-block;"></div>`
         chart.insertAdjacentHTML('beforeend',t)
     }
-    var note = `<div id='note' style="height: 50px; width: 600px; line-height:50px;color:red; font-weight:bolder; display: block; text-align: center;"></div>`
+    var note = `<div id='note' style="height: 50px; width: 1200px; line-height:50px;color:red; font-weight:bolder; display: block; text-align: center;"></div>`
     chart.insertAdjacentHTML('afterend',note)
     var noteArea = document.querySelector('#note')
     chart.addEventListener('mouseover',function(){
@@ -165,6 +179,12 @@ function renderChart() {
             // log(self)
             var h = Math.floor(chartData[self.id])
             noteArea.innerHTML = self.id + ':' + h
+        }
+    })
+    chart.addEventListener('mouseout',function(){
+        var self = event.target
+        if (self.classList.contains('columnCell')) {
+            noteArea.innerHTML = ""
         }
     })
 
