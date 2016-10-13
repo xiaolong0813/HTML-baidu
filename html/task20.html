@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style media="screen">
+            .num{
+                display: inline-block;
+                background-color: red;
+                color: white;
+                font-size: 20px;
+                font-weight: bolder;
+                text-align: center;
+                padding: 10px;
+                /*line-height: 80px;*/
+                /*width: 80px;
+                height: 80px;*/
+                margin-left: 20px;
+                margin-top: 30px;
+            }
+            #input{
+                height: 100px;
+                width: 300px;
+                resize:none;
+                display: table-cell;
+                /*display: inline-block;*/
+                /*float: left;*/
+            }
+            .row{
+                display: table-row;
+                /*float: left;*/
+            }
+            .row button{
+                display: table-cell;
+                margin: 5px;
+            }
+            .numEnter{
+                /*border: 2px solid red;*/
+            }
+        </style>
+    </head>
+    <body>
+        <div class="form">
+            <textarea name="name" id="input"></textarea>
+            <div class="row">
+                <button type="button" name="button" id="leftIn">左侧入</button>
+                <button type="button" name="button" id="rightIn">右侧入</button>
+            </div>
+            <div class="row">
+                <button type="button" name="button" id="leftOut">左侧出</button>
+                <button type="button" name="button" id="rightOut">右侧出</button>
+            </div>
+            <div class="row">
+                <input type="text" name="name" value="输入要查询的值" id="search">
+                <button type="button" name="button" id="searchButton">查找</button>
+            </div>
+        </div>
+        <div class="numEnter">
+
+        </div>
+        <script src="../JS/task20-js.js">
+        </script>
+    </body>
+</html>
