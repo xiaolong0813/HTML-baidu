@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>task29表单</title>
+        <style media="screen">
+            .formTable {
+                width: 500px;
+                height: 200px;
+                margin: auto;
+                border: 2px solid darkgrey;
+                padding: 20px;
+            }
+            .container {
+                padding: 0;
+                /*border: 2px solid red;*/
+            }
+            .tableRow {
+                /*margin: 20px auto 0 auto;*/
+                /*padding: auto;*/
+                width: 100%;
+                /*display: table-row;*/
+                height: 60px;
+                /*line-height: 40px;*/
+            }
+            .col {
+                height: 40px;
+            }
+            .first-col {
+                width: 45px;
+                display: table-cell;
+                /*border: 2px solid red;*/
+                text-align: left;
+                font-weight: bolder;
+                font-size: 20px;
+                padding: 2px;
+            }
+             .second-col {
+                width: 380px;
+                display:table-cell;
+                /*border: 2px solid red;*/
+                text-align: left;
+            }
+            .second-col input {
+                width: 100%;
+                height: 100%;
+                border-radius: 5px;
+            }
+            .note {
+                color: grey;
+                font-size: 15px;
+            }
+            .third-col {
+               width: 70px;
+               display: table-cell;
+               /*border: 2px solid red;*/
+               text-align: right;
+           }
+           .third-col button {
+               height: 100%;
+               width: 60px;
+               background-color: brown;
+               border-radius: 5px;
+               color: white;
+               font-size: 20px;
+           }
+           .note-wrong {
+               border-color: red;
+           }
+           .note-right {
+               border-color: green;
+           }
+
+        </style>
+    </head>
+    <body>
+        <fieldset class="formTable">
+            <legend>输入名称</legend>
+            <div class="container">
+                <div class="tableRow">
+                    <div class="first-col col">
+                        名称
+                    </div>
+                    <div class="second-col col">
+                        <input type="text" name="name" class="checkInput">
+                    </div>
+                    <div class="third-col col">
+                        <button type="button" class="checkButton">验证</button>
+                    </div>
+                </div>
+                <div class="tableRow">
+                    <div class="first-col col"></div>
+                    <div class="second-col col note">必填，长度为4~16个字符</div>
+                    <div class="third-col col"></div>
+                </div>
+            </div>
+        </fieldset>
+        <script src="../JS/task29.js"></script>
+    </body>
+</html>
