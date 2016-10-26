@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>task29</title>
+        <style media="screen">
+        body {
+                /*background: lightblue;          /* 背景色   */*/
+                margin:0px;                     /* 外边距   */
+                border:0px;                     /* 边框     */
+                border-style: solid;            /* 边框样式 */
+                padding:0px;                    /* 内边距   */
+                font-family: Microsoft YaHei;   /* 字体     */
+                /*font-size: 22px;                /* 字体大小 */*/
+                text-align: center;             /* 对齐     */
+            }
+            div {
+                padding: 0px;
+            }
+            .long-container {
+                width: 500px;
+                height: 300px;
+                margin: 50px auto;
+                border: 1px solid grey;
+                border-radius: 5px;
+            }
+            .long-row1 {
+                margin-top: 30px;
+            }
+            .long-row2 {
+                margin-top: 5px;
+            }
+            .long-row {
+                width: 100%;
+                height: 30px;
+                display: inline-block;
+                margin-bottom: 5px;
+            }
+            .long-col {
+                display: inline-block;
+            }
+            .long-col1 {
+                width: 20%;
+                text-align: right;
+                padding-right: 5px;
+                font-size: 15px;
+            }
+            .long-col3 {
+                width: 20%;
+                text-align: left;
+                padding-left: 5px;
+            }
+            .long-row1 .long-col2 {
+                width: 50%;
+                height: 100%;
+                border-radius: 5px;
+                border: 0.5px solid grey;
+            }
+            .long-row2 .long-col2 {
+                font-size: 10px;
+                color: grey;
+            }
+            .long-button {
+                display: inline-block;
+                height: 100%;
+                width: 60%;
+                border-radius: 3px;
+                background-color: lightgreen;
+                color: white;
+                border: none;
+            }
+            .long-button:focus,.long-input:focus {
+                outline: none;
+            }
+            .long-button:hover {
+                cursor: pointer;
+            }
+            .long-col3 {
+                height: 100%;
+            }
+            .note-wrong {
+                border-color: red !important;
+            }
+            .note-right {
+                border-color: lightgreen !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="long-container">
+            <div class="long-row long-row1">
+                <div class="long-name long-col long-col1">名称</div>
+                <input type="text" class="long-input long-col long-col2" value="">
+                <div class="long-col long-col3">
+                    <button type="button" class="long-button">验证</button>
+                </div>
+            </div>
+            <div class="long-row long-row2">
+                <div class="long-col long-col1"></div>
+                <div class="long-col long-col2">必填，长度为4~16个字符</div>
+            </div>
+        </div>
+        <script src="../JS/task29-单行文本框验证.js"></script>
+    </body>
+</html>
