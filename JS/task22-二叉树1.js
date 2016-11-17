@@ -1,11 +1,7 @@
 var log = function() {console.log.apply(console, arguments)}
 
-var divTree = function (div, left, right) {
-    this.div = div || null
-    this.left = left || null
-    this.right = right || null
-}
 
+///////////////////////////二叉树在js里的应用///////////////////////////////////
 //建立二叉树
 var BinaryTree = function() {
     this._root = null
@@ -116,48 +112,89 @@ BinaryTree.prototype.toString = function() {
     return this.toArray().toString
 }
 
-
-
-
-
-
-
-
-var a = [2, 5, 7, 1, 4, 10, 0]
-var tree = new BinaryTree()
-for (var i = 0; i < a.length; i++) {
-    tree.add(a[i])
+/////////////////////////////////////////////////////////////////////////////
+//声明用于存放循环改变颜色的元素的数组
+var divs = [],
+    timer
+//中序遍历函数
+var inOrder = function(node) {
+    //这里应该对左右元素都进行检验是否存在，不过这里已知不会出现单侧节点，就简化为一个
+    if (node) {
+        inOrder(node.firstElementChild)
+        divs.push(node)
+        inOrder(node.lastElementChild)
+    }
 }
-
-var vfunc = function(n, v) {
-    if (n === 0) {
-        return []
-    } else {
-        --n
-        return [...(vfunc(n, v)), v]
+//前序遍历函数
+var preOrder = function(node) {
+    if (node) {
+        divs.push(node)
+        preOrder(node.firstElementChild)
+        preOrder(node.lastElementChild)
+    }
+}
+//后序遍历函数
+var postOrder = function(node) {
+    if (node) {
+        postOrder(node.firstElementChild)
+        postOrder(node.lastElementChild)
+        divs.push(node)
+    }
+}
+//循环改变divs颜色的函数
+var colorChange = function() {
+    //先把第一个置为蓝色
+    divs[0].style.backgroundColor = 'blue'
+    //从0开始，每隔500毫秒运行一次改变颜色
+    var i = 0
+    timer = setInterval(function(){
+        i++
+        //最后一次之前，每次修改不同div的颜色
+        if (i < divs.length) {
+            divs[i - 1].style.backgroundColor = 'white'
+            divs[i].style.backgroundColor = 'blue'
+        } else {
+        //最后一个，停止动画，把最后一个的颜色清除
+            clearInterval(timer)
+            divs[divs.length - 1].style.backgroundColor = 'white'
+        }
+    }, 500)
+}
+//每次循环开始需要初始化条件，清空divs，把颜色清除
+var reset = function() {
+    divs = []
+    clearInterval(timer)
+    var divArray = document.querySelectorAll('div')
+    for (var i = 0; i < divArray.length; i++) {
+        divArray[i].style.backgroundColor = 'white'
+    }
+}
+//bind所有按钮的事件
+var bindButtons = function() {
+    var buttons = document.querySelectorAll('button'),
+        preBtn = buttons[0],
+        inBtn = buttons[1],
+        postBtn = buttons[2]
+    //选取最外面的div为root元素
+    var rootDiv = document.querySelector('.level-1')
+    preBtn.onclick = function() {
+        reset()
+        preOrder(rootDiv)
+        colorChange()
+    }
+    inBtn.onclick = function() {
+        reset()
+        inOrder(rootDiv)
+        colorChange()
+    }
+    postBtn.onclick = function() {
+        reset()
+        postOrder(rootDiv)
+        colorChange()
     }
 }
 
 
-
-
-// BinaryTree.prototype = {
-//     //也是一种声明其函数的方法
-//     constructor : BinaryTree,
-//     //增加node
-//     add: function(value) {
-//
-//     },
-//     remove: function(value) {
-//
-//     },
-//     size: function() {
-//
-//     },
-//     toArray: function() {
-//
-//     },
-//     toString: function() {
-//
-//     }
-// }
+window.onload = function() {
+    bindButtons()
+}

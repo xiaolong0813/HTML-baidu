@@ -1,4 +1,4 @@
-div {
+div[class^='level'] {
     border: 2px solid red;
     display: flex;
     justify-content:space-between;
@@ -11,4 +11,8 @@ div {
 .level-2,.level-3,.level-4 {
     flex: 1;
     margin: 20px;
+}
+ .buttons {
+    margin: 30px auto;
+    text-align: center;
 }
