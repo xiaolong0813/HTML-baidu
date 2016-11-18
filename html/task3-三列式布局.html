@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>task3</title>
+        <style media="screen">
+            .outer {
+                margin: 30px auto;
+                padding: 20px;
+                background-color: #eee;
+                overflow: auto;
+                min-width: 600px;
+                border: 2px solid #999;
+            }
+            /*用float需要指定盒子宽度*/
+            /*.left,.mid,.right {
+                float: left;
+                margin-left: 20px;
+            }*/
+            .left {
+                float: left;
+                width: 200px;
+                padding: 20px;
+                background-color: white;
+                border: 2px solid #999;
+            }
+            .logo-0 {
+                float: left;
+                width: 80px;
+                height: 80px;
+                margin-right: 20px;
+                background-color: grey;
+            }
+            .mid {
+                margin-left: 270px;
+                margin-right: 150px;
+                padding: 20px;
+                background-color: white;
+                border: 2px solid #999;
+            }
+            .right {
+                float: right;
+                width: 120px;
+                background-color: white;
+                border: 2px solid #999;
+                /*padding: 20px;*/
+            }
+            .logo-1 {
+                display: block;
+                /*float: left;*/
+                width: 80px;
+                height: 80px;
+                margin: 20px;
+                background-color: grey;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="outer">
+            <div class="left">
+                <div class="logo-0">
+                </div>
+                团队名称
+            </div>
+            <!-- 这里需要在left之后紧邻right，才可以使左右浮动正常，如果left之后是mid，
+            就导致right的位置下移 -->
+            <div class="right">
+                <div class="logo-1">
+                </div>
+                <div class="logo-1">
+                </div>
+                <div class="logo-1">
+                </div>
+                <div class="logo-1">
+                </div>
+            </div>
+            <div class="mid">
+                这是关于我自己的介绍，这是关于我自己的介绍，这是关于我自己的介绍，
+                这是关于我自己的介绍，这是关于我自己的介绍，这是关于我自己的介绍，
+                这是关于我自己的介绍，这是关于我自己的介绍，这是关于我自己的介绍，
+            </div>
+        </div>
+    </body>
+</html>
