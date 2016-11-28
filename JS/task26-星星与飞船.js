@@ -1,7 +1,8 @@
 var log = function(){console.log.apply(console, arguments)}
 //建立飞船对象
-var Airship = function(id) {
+var Airship = function(id, pathId) {
     this.id = id,
+    this.path = pathId,
     this.state = 'stop',
     this.deg = 0,
     this.power = 100,
@@ -13,16 +14,17 @@ var Airship = function(id) {
 }
 //创建飞船
 Airship.prototype.create = function() {
-    let id = this.id
-    var t = `<div class="ship-${id}" data-ship=${id}>
+    let id = this.id,
+        pid = this.path
+    var t = `<div class="ship" data-ship=${id}>
                 <div class="power"><span>100%</span></div>
             </div>`
-    var path = $(`[data-path=${id}]`)
+    var path = $(`[data-path=${pid}]`)
     path.append(t)
     this.shipDiv = $(`[data-ship=${id}]`)
     this.powerDiv = $('.power', this.shipDiv)
     //把信息在控制台list中显示出来
-    consoler(`创建飞船${id}号`)
+    consoler(`创建飞船${id}号`,'green')
 }
 //飞船动力系统,包括飞行和停止和销毁
 Airship.prototype.dynamicSystem = function() {
@@ -49,7 +51,6 @@ Airship.prototype.dynamicSystem = function() {
     }
     var stop = function() {
         self.shipDiv.stop()
-        self.state = 'stop'
     }
     var destroy = function() {
         self.shipDiv.stop()
@@ -114,20 +115,26 @@ Airship.prototype.stateManager = function() {
     //不同状态时的行为函数
     var states = {
         flyState : function() {
-            self.state = 'fly'
-            self.dynamicSystem().fly()
-            self.powerSystem().discharge()
-            consoler(`${self.id}号飞船起飞了,耗能率每秒${self.dischargeSpeed}%~`)
+            if (self.state !== 'destroy') {
+                self.state = 'fly'
+                self.dynamicSystem().fly()
+                self.powerSystem().discharge()
+                consoler(`${self.id}号飞船起飞了,耗能率每秒${self.dischargeSpeed}%~`)
+            }
         },
         stopState : function() {
-            self.state = 'stop'
-            self.dynamicSystem().stop()
-            self.powerSystem().charge()
-            consoler(`${self.id}号飞船停止了,充能率每秒${self.chargeSpeed}%~`)
+            if (self.state !== 'destroy') {
+                self.state = 'stop'
+                self.dynamicSystem().stop()
+                self.powerSystem().charge()
+                consoler(`${self.id}号飞船停止了,充能率每秒${self.chargeSpeed}%~`)
+            }
+
         },
         destroyState : function() {
+            self.state = 'destroy'
             self.dynamicSystem().destroy()
-            consoler(`${self.id}号飞船已销毁~`)
+            consoler(`${self.id}号飞船已销毁~`,'red')
         }
     }
     var changeState = function(state) {
@@ -140,7 +147,7 @@ Airship.prototype.stateManager = function() {
 //接受信号系统，用于通过信号做出相应行为
 Airship.prototype.getMessage = function(id, msg) {
     var self = this
-    if (id === self.id) {
+    if (id === self.path) {
         switch (msg) {
             case 'fly':
             case 'stop':
@@ -153,22 +160,76 @@ Airship.prototype.getMessage = function(id, msg) {
     }
 }
 
-//指挥官对象
-var commander = function() {
-    
-
+// var test1 = function() {
+//     return {
+//         t1: function() {
+//             //这里返回的this是整个return的对象
+//             log('t1的this是',this)
+//         },
+//         t2: function() {
+//             log('t2的this是',this)
+//         }
+//     }
+// }
+//指挥官对象,参数为要发送的对象
+var Commander = function(obj) {
+    this.obj = obj
+}
+Commander.prototype.commandManager = function() {
+    var self = this
+    $('control').on('click', 'button', function(e){
+        var t = $(e.target)
+        var msg = t.attr('class')
+        var pathId = t.parent().data('con')
+        var msgObj = {
+            message : msg,
+            pathId : pathId
+        }
+        self.obj.receive(msgObj).sendMessage()
+    })
 }
 
-var test = function() {
-    var a = new Airship(1)
-    a.create()
-    a.getMessage(1, 'fly')
-    var b = new Airship(2)
-    b.create()
-    b.getMessage(2, 'fly')
 
+//mediator对象，作用是接受指挥官的信号并延迟一秒发送，但是会有丢包，并且储存所有飞船的信息
+var Mediator = function() {
+    this.shipData = []
 }
-
+Mediator.prototype.receive = function(msg) {
+    var self = this,
+        pid = msg.pathId,
+        ms = msg.message
+    var newShip = function() {
+        var length = self.shipData.length,
+            newId = (length === 0) ? 1 : (self.shipData[length - 1].id + 1),
+            newOne = new Airship(newId, pid)
+        newOne.create()
+        self.shipData.push(newOne)
+    }
+    var sendMessage = function() {
+        setTimeout(function(){
+            var success = Math.random() > 0.3 ? true : false
+            if (success) {
+                if (ms === 'create') {
+                    //同级函数可以直接调用
+                    newShip()
+                    log(self.shipData)
+                } else {
+                    //向所有的飞船发送命令
+                    for (var i = 0; i < self.shipData.length; i++) {
+                        self.shipData[i].getMessage(pid, ms)
+                    }
+                    log(self.shipData)
+                }
+            } else {
+                consoler(`信号发送失败！`, 'red')
+            }
+        },1000)
+    }
+    return {
+        newShip : newShip,
+        sendMessage : sendMessage
+    }
+}
 // //动画工具,用于集体处理飞船的各个行为
 // var animater = {
 //     // create : function(id) {
@@ -241,7 +302,15 @@ var test = function() {
 // }
 
 //控制台工具
-var consoler = function(msg) {
-    var t = `<li><i class="fa fa-volume-up"></i> ${msg}</li>`
+var consoler = function(msg, color='blue') {
+    var t = `<li style='color: ${color}'><i class="fa fa-volume-up"></i> ${msg}</li>`
     $('.list').find('ul').prepend(t)
 }
+
+//主线程
+window.onload = function() {
+    var media = new Mediator()
+    var commander = new Commander(media)
+    commander.commandManager()
+}
+// test()

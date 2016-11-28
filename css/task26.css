@@ -70,24 +70,24 @@ div[class^='ship'] {
     color: #fff;
     /*transform-origin: */
 }
-.ship-1 {
+.path-1 [class^='ship'] {
     left: 105px;
     bottom: -10px;
     /*如果上面ship有的transform，这里就没法调整成为正确的中心了
     这里的115是由ship高度减去轨道半径即 10 - 125 所得*/
     transform-origin: 20px -115px;
 }
-.ship-2 {
+.path-2 [class^='ship'] {
     left: 140px;
     bottom: -10px;
     transform-origin: 20px -150px;
 }
-.ship-3 {
+.path-3 [class^='ship'] {
     left: 175px;
     bottom: -10px;
     transform-origin: 20px -185px;
 }
-.ship-4 {
+.path-4 [class^='ship'] {
     left: 210px;
     bottom: -10px;
     transform-origin: 20px -220px;
