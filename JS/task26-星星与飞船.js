@@ -6,9 +6,9 @@ var Airship = function(id, pathId) {
     this.state = 'stop',
     this.deg = 0,
     this.power = 100,
-    this.speed = 70,
-    this.chargeSpeed = 10,
-    this.dischargeSpeed = 15,
+    this.speed = 30,
+    this.chargeSpeed = 4,
+    this.dischargeSpeed = 6,
     this.shipDiv,
     this.powerDiv
 }
@@ -177,16 +177,30 @@ var Commander = function(obj) {
 }
 Commander.prototype.commandManager = function() {
     var self = this
+    $('button').hover(function(e){
+        $(e.target).addClass('hover')
+    },function(e){
+        $(e.target).removeClass('hover')
+    })
     $('control').on('click', 'button', function(e){
         var t = $(e.target)
-        var msg = t.attr('class')
+        var msg = t.attr('name')
         var pathId = t.parent().data('con')
         var msgObj = {
             message : msg,
             pathId : pathId
         }
+        //如果点击的是create,则不能在这个轨道再创建，按钮变为不可点击,这里要改变hover的
+        //样式的话，不能用伪类
+        if (msg === 'create') {
+            t.attr('disabled', 'true').removeClass('hover')
+        } else if (msg === 'destroy') {
+            //如果点击销毁，则创建按钮可点击，这里不能用attr将disabled属性改为false,应删除此属性
+            t.siblings('button[name="create"]').removeAttr('disabled').removeClass('hover')
+        }
         self.obj.receive(msgObj).sendMessage()
     })
+    consoler(`准备就绪,请下达指令`)
 }
 
 
@@ -307,8 +321,54 @@ var consoler = function(msg, color='blue') {
     $('.list').find('ul').prepend(t)
 }
 
+//生成星空,把屏幕分成八块，每块里面随机分3-10个
+var stars = function() {
+    var divide = function() {
+        for (var i = 0; i < 2; i++) {
+            for (var j = 0; j < 4; j++) {
+                let minLeft = 25 * j,
+                    maxLeft = 25 * (j + 1),
+                    minTop = 50 * i,
+                    maxTop = 50 * (i + 1)
+                eachArea(minLeft, maxLeft, minTop, maxTop)
+            }
+        }
+    }
+    var eachArea = function(minLeft, maxLeft, minTop, maxTop) {
+        let min = 3, max = 10,
+            num = Math.floor(Math.random() * (max - min) + min)
+        for (let i = 0; i < num; i++) {
+            var starLeft = Math.floor(Math.random() * (maxLeft - minLeft) + minLeft),
+                starTop = Math.floor(Math.random() * (maxTop - minTop) + minTop),
+                radius = Math.floor(Math.random() * 3 + 1)
+            t = `<star style="width:${radius}px; height:${radius}px; top:${starTop}%; left:${starLeft}%"></star>`
+            $('stars').append(t)
+        }
+    }
+    var shinning = function() {
+        var out = setInterval(function(){
+            let num = Math.floor(Math.random() * ($('stars').children().length)),
+                star = $($('stars').children()[num])
+                star.animate({x:0},{
+                    step : function(n, fx) {
+                        $(this).css('background-color', 'transparent')
+                    },
+                    complete : function() {
+                        $(this).css('background-color', 'white')
+                    },
+                    duration : 1000
+                })
+        },3000)
+    }
+    return {
+        divide : divide,
+        shinning : shinning
+    }
+}
 //主线程
 window.onload = function() {
+    stars().divide()
+    stars().shinning()
     var media = new Mediator()
     var commander = new Commander(media)
     commander.commandManager()
