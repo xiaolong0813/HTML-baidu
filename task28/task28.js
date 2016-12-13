@@ -164,10 +164,10 @@ Airship.prototype.stateManager = function() {
     return {changeState : changeState}
 }
 //接受信号系统，用于通过信号做出相应行为
-Airship.prototype.messageManager = function(code) {
+Airship.prototype.messageManager = function() {
     var self = this
-    var getMessage = function() {
-        var msg = shipDecompile()
+    var getMessage = function(code) {
+        var msg = shipDecompile(code)
         if (msg.id === self.id) {
             switch (msg.cos) {
                 case 'fly':
@@ -183,11 +183,11 @@ Airship.prototype.messageManager = function(code) {
     var sendState = function() {
         self.stateTimer = setInterval(function(){
             var stateCode = shipCompile()
-            // log(stateCode)
+            // log(self)
             self.receiver.busManager().getState(stateCode)
         },500)
     }
-    var shipDecompile = function() {
+    var shipDecompile = function(code) {
         var busMsg = adapterFunc().decompile(code)
         return busMsg
     }
@@ -440,7 +440,7 @@ Bus.prototype.busManager = function() {
                     var code = BusCompile(msg)
                     var keys = Object.keys(self.shipData)
                     for (var i = 0; i < keys.length; i++) {
-                        self.shipData[keys[i]].messageManager(code).getMessage()
+                        self.shipData[keys[i]].messageManager().getMessage(code)
                     }
                     if (ms === 'destroy') {
                         delete self.shipData[pid]

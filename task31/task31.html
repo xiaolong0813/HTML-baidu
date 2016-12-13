@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>表单联动</title>
+        <style media="screen">
+                body {
+                font-family: Microsoft YaHei;   /* 字体     */
+                font-size: 20px;                /* 字体大小 */
+                min-width: 750px;               /* 最小宽度，这个有必要 */
+            }
+            form {
+                display: block;
+                margin: 10px auto;
+                width: 600px;
+                height: 200px;
+                border: 1px solid grey;
+                border-radius: 10px;
+                /*text-align: center;*/
+                padding: 20px;
+                box-sizing: border-box;
+            }
+            .radioDiv {
+                margin: 0 auto;
+                width: 80%;
+                height: 50%;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+            }
+            .radio {
+                display: inline-block;
+                text-align: center;
+            }
+            .selectDiv {
+                margin: 0 auto;
+                width: 80%;
+                height: 50%;
+            }
+            .schoolDiv,.workDiv {
+                margin: 10px auto;
+            }
+            .label {
+                display: inline-block;
+                width: 20%;
+                text-align: right;
+                margin-right: 20px;
+            }
+            select {
+                width: 155px;
+                height: 30px;
+                border-radius: 5px;
+                font-family: Microsoft YaHei;
+                padding: 5px;
+            }
+            .workDiv input {
+                width: 300px;
+                height: 20px;
+                border-radius: 5px;
+                padding: 5px;
+                border: 1px solid grey;
+            }
+            .hide {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <form class="" action="index.html" method="post">
+            <div class="radioDiv">
+                <div class="radio">
+                    <input type="radio" id="inSchool" name="shoolRadio" value="" checked>
+                    <label for="inSchool">在校生</label>
+                </div>
+                <div class="radio">
+                    <input type="radio" id="outSchool" name="shoolRadio" value="">
+                    <label for="outSchool">非在校生</label>
+                </div>
+            </div>
+            <div class="selectDiv">
+                <div class="schoolDiv">
+                    <label for="" class="label">学校</label>
+                    <select class="city" name="">
+                        <!-- <option value="pk">北京</option> -->
+                    </select>
+                    <select class="school" name="">
+                    </select>
+                </div>
+                <div class="workDiv hide">
+                    <label for="" class="label">就业单位</label>
+                    <input type="text" name="" value="">
+                </div>
+            </div>
+        </form>
+        <script src='task31.js'></script>
+
+    </body>
+</html>
