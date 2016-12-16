@@ -1,0 +1,145 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+        /*background: lightblue;          /* 背景色   */*/
+        margin:0px;                     /* 外边距   */
+        border:0px;                     /* 边框     */
+        padding:0px;                    /* 内边距   */
+        border-style: solid;            /* 边框样式 */
+        font-family: Microsoft YaHei;   /* 字体     */
+        font-size: 15px;                /* 字体大小 */
+        /*text-align: center;             /* 对齐     */*/
+        min-width: 750px;               /* 最小宽度，这个有必要 */
+        /* 下面这个看需求，如果不加这个，body下的absolute就是相对于浏览器窗口的 */
+        /*position : relative;*/
+    }
+.outer {
+    margin: 0px auto;
+    padding: 20px;
+    background-color: #eee;
+    overflow: auto;
+    min-width: 600px;
+    border: 2px solid #999;
+}
+
+.class-section-type {
+    width: 220px;
+    float: left;
+}
+fieldset {
+    width:100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+label {
+    display: inline-block;
+}
+.class-input-length {
+    width: 30px;
+}
+.class-section-display {
+    /*float: right;*/
+    margin-left: 280px;
+    border: 1px solid grey;
+    border-radius: 10px;
+    min-width: 500px;
+    /*height: 200px;*/
+    /*overflow: auto;*/
+}
+.class-section-display p {
+    margin: 10px auto;
+    font-size: 20px;
+    text-align: center;
+}
+.form-display {
+    width: 90%;
+    margin: 0 auto;
+    /*overflow:visible;*/
+}
+#add-button {
+    width: 100%;
+    height: 30px;
+    background-color: #aaa;
+    border: none;
+    font-weight: bold;
+}
+#add-button:hover {
+    cursor: pointer;
+    background-color: black;
+    color: white;
+}
+#add-button:focus {
+    outline: none;
+}
+#submit-button {
+    display: block;
+    width: 80px;
+    height: 20px;
+    border: none;
+    font-family: Microsoft YaHei;
+    background-color: #aaa;
+    margin:15px auto;
+}
+.form-display :first-child[id=submit-button] {
+    display: none !important;
+}
+
+/*.long-row1 {
+    margin-top: 30px;
+}
+.long-row2 {
+    margin-top: 5px;
+}*/
+.long-cell {
+    text-align: left;
+}
+.long-row-1 {
+    width: 100%;
+    height: 30px;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+.long-row-2 {
+    height: 30px;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+.long-row1-2 {
+    width: 70%;
+}
+.long-row2-2 {
+    width: 20%;
+    font-size: 0px;
+}
+.long-col-1,.long-col-2 {
+    display: inline-block;
+}
+.long-col1-1, .long-col1-2 {
+    width: 20%;
+    text-align: right;
+    padding-right: 5px;
+    font-size: 15px;
+}
+.long-col2-1 {
+    width: 70%;
+}
+.long-col2-2 {
+    width: 75%;
+}
+.long-row1-1 .long-col2-1, .long-row1-2 .long-col2-2{
+    /*width: 80%;*/
+    height: 100%;
+    border-radius: 5px;
+    border: 0.5px solid grey;
+}
+.long-row2-1 .long-col2-1,.long-row2-2 .long-col2-2 {
+    text-align: left;
+    font-size: 10px;
+    color: grey;
+}
+.long-row2-2 .long-col1-2 {
+    width: 0px;
+}

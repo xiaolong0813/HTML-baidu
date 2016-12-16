@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>表单工厂</title>
+        <link rel="stylesheet" href="task32.css">
+        <script src='task32.js'></script>
+        <script type="text/javascript">
+            window.onload = function() {
+                __main()
+            }
+        </script>
+    </head>
+    <body>
+        <div class="outer">
+            <section class="class-section-type">
+                <fieldset>
+                    <legend>类型</legend>
+                    <label><input type="radio" name="type" value="text" checked>输入框</label>
+                    <label><input type="radio" name="type" value="radio">单选框</label>
+                    <label><input type="radio" name="type" value="mutiradio">多选框</label>
+                    <label><input type="radio" name="type" value="select">下拉框</label>
+                    <label><input type="radio" name="type" value="radio">文本域</label>
+                </fieldset>
+                <fieldset>
+                    <legend>配置</legend>
+                    <label>名称：<input type="text" class="class-input-name"></label>
+                    <label><input type="radio" name="input" value="input1" checked>必填</label>
+                    <label><input type="radio" name="input" value="input2">选填</label><br>
+                    <label><input type="radio" name="style" value="f1" checked>样式一</label>
+                    <label><input type="radio" name="style" value="f2">样式二</label>
+                </fieldset>
+                <fieldset>
+                    <legend>验证规则</legend>
+                    <label><input type="radio" name="rules" value="text" checked>文字</label>
+                    <label><input type="radio" name="rules" value="radio">密码</label>
+                    <label><input type="radio" name="rules" value="mutiradio">数字</label>
+                    <label><input type="radio" name="rules" value="select">邮箱</label>
+                    <label><input type="radio" name="rules" value="radio">电话号码</label>
+                </fieldset>
+                <fieldset>
+                    <legend>长度限制</legend>
+                    <label>字符个数：<input type="text" class="class-input-length" value="4">---<input type="text" class="class-input-length" value="16"></label>
+                </fieldset>
+                <button type="button" name="button" id="add-button">ADD</button>
+            </section>
+            <section class="class-section-display">
+                <p>表单展示区</p>
+                <div class="form-display">
+                    <!-- <div class="long-cell">
+                        <div class="long-row-1 long-row1-1">
+                            <div class="long-name long-col-1 long-col1-1">名称</div>
+                            <input type="text" class="long-input long-col-1 long-col2-1" value="">
+                        </div>
+                        <div class="long-row-1 long-row2-1">
+                            <div class="long-col-1 long-col1-1"></div>
+                            <div class="long-col-1 long-col2-1 long-note">输入名称</div>
+                        </div>
+                    </div> -->
+                    <!-- <div class="long-cell">
+                        <div class="long-row-2 long-row1-2">
+                            <div class="long-name long-col-2 long-col1-2">名称</div>
+                            <input type="text" class="long-input long-col-2 long-col2-2" value="">
+                        </div>
+                        <div class="long-row-2 long-row2-2">
+                            <div class="long-col-2 long-col1-2"></div>
+                            <div class="long-col-2 long-col2-2 long-note">输入名称</div>
+                        </div>
+                    </div> -->
+                    <button id="submit-button">提交</button>
+                </div>
+
+            </section>
+        </div>
+
+
+
+
+
+
+    </body>
+</html>
