@@ -3,6 +3,102 @@
     <head>
         <meta charset="utf-8">
         <title>听指令的方块</title>
+        <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+                font-family: Microsoft YaHei;   /* 字体     */
+                font-size: 22px;                /* 字体大小 */
+                /*text-align: center;             /* 对齐     */*/
+                min-width: 750px;               /* 最小宽度，这个有必要 */
+                /* 下面这个看需求，如果不加这个，body下的absolute就是相对于浏览器窗口的 */
+                /*position : relative;*/
+            }
+            .box {
+                /*padding: 20px auto;*/
+                font-size: 0;
+                width: 450px;
+                height: 450px;
+            }
+            .square {
+                display: inline-block;
+                width: 400px;
+                height: 400px;
+                border: 1.5px solid black;
+                padding: 0;
+                position: relative;
+            }
+            .square li {
+                float: left;
+                width: 40px;
+                height: 40px;
+                list-style: none;
+                border: 1px solid lightgrey;
+                box-sizing: border-box;
+            }
+            .across {
+                display: inline-block;
+                width: 400px;
+                height: 40px;
+            }
+            .across span,.vertical span {
+                display: inline-block;
+                float: left;
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                font-size: 22px;
+            }
+            .vertical {
+                display: inline-block;
+                width: 40px;
+                height: 440px;
+                float: left;
+            }
+            .diamond {
+                width: 40px;
+                height: 40px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                background-color: red;
+                border-right: 5px solid blue;
+                box-sizing: border-box;
+                transition: 1s;
+            }
+            .input {
+                width: 450px;
+                height: 30px;
+                text-align: center;
+            }
+            .input input {
+                width: 50%;
+                height: 100%;
+                border-radius: 5px;
+                border: 1px solid grey;
+            }
+            .input button {
+                width: 20%;
+                height: 100%;
+                border-radius: 5px;
+                border: 1px solid grey;
+            }
+            .input button:hover {
+                cursor: pointer;
+            }
+            .input input,.input button:focus {
+                outline: none;
+            }
+            /*.rotate90 {
+                transform: rotate(90deg);
+                left:40px;
+            }*/
+        </style>
+        <!-- <script src='long.js'></script>
+        <script src='task33.js'></script> -->
         <script>
             window.onload = function() {
                 __main()
@@ -10,6 +106,23 @@
         </script>
     </head>
     <body>
-
+        <div class="box">
+            <div class="across">
+                <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+            </div>
+            <div class="vertical">
+                <span></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+            </div>
+            <ul class="square">
+                <div class="diamond">
+                </div>
+            </ul>
+        </div>
+        <div class="input">
+            <input type="text" id="id-input">
+            <button id="id-button">执行</button>
+        </div>
+        <script src='long.js'></script>
+        <script src='task33.js'></script>
     </body>
 </html>
