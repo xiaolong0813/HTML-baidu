@@ -28,7 +28,7 @@ Diamond.prototype.createAndSet = function() {
     self.dia.style.left = `${self.left}px`
     self.dia.style.transform = `rotate(${self.deg}deg)`
 }
-Diamond.prototype.move = function() {
+Diamond.prototype.move = function(num) {
     var self = this
     return {
         forword : function() {
@@ -95,18 +95,22 @@ Diamond.prototype.move = function() {
             }
         },
         moveLeft : function() {
+            self.deg = -180
             self.dia.style.transform = `rotate(-180deg)`
             self.move().transLeft()
         },
         moveTop : function() {
+            self.deg = -90
             self.dia.style.transform = `rotate(-90deg)`
             self.move().transTop()
         },
         moveRight : function() {
+            self.deg = 0
             self.dia.style.transform = `rotate(0deg)`
             self.move().transRight()
         },
         moveBottom : function() {
+            self.deg = 90
             self.dia.style.transform = `rotate(90deg)`
             self.move().transBottom()
         }
@@ -114,10 +118,13 @@ Diamond.prototype.move = function() {
 }
 Diamond.prototype.getMsg = function(msg) {
     var self = this
-    var msg = msg.toLowerCase()
-    switch (msg) {
+    var com = msg.command.toLowerCase()
+    var num = msg.num
+    switch (com) {
         case 'go':
-            self.move().forword()
+            for (let i = 0; i < num; i++) {
+                self.move().forword()
+            }
             break;
         case 'tun lef':
             self.move().turnLeft()
@@ -129,31 +136,47 @@ Diamond.prototype.getMsg = function(msg) {
             self.move().turnBack()
             break;
         case 'tra lef':
-            self.move().transLeft()
+            for (let i = 0; i < num; i++) {
+                self.move().transLeft()
+            }
             break;
         case 'tra top':
-            self.move().transTop()
+            for (var i = 0; i < num; i++) {
+                self.move().transTop()
+            }
             break;
         case 'tra rig':
-            self.move().transRight()
+            for (var i = 0; i < num; i++) {
+                self.move().transRight()
+            }
             break;
         case 'tra bot':
-            self.move().transBottom()
+            for (var i = 0; i < num; i++) {
+                self.move().transBottom()
+            }
             break;
         case 'mov lef':
-            self.move().moveLeft()
+            for (var i = 0; i < num; i++) {
+                self.move().moveLeft()
+            }
             break;
         case 'mov top':
-            self.move().moveTop()
+            for (var i = 0; i < num; i++) {
+                self.move().moveTop()
+            }
             break;
         case 'mov rig':
-            self.move().moveRight()
+            for (var i = 0; i < num; i++) {
+                self.move().moveRight()
+            }
             break;
         case 'mov bot':
-            self.move().moveBottom()
+            for (var i = 0; i < num; i++) {
+                self.move().moveBottom()
+            }
             break;
         default:
-            alert('无效指令！')
+            break;
     }
 }
 ////////////绑定输入命令事件
@@ -161,50 +184,118 @@ var bindButton = function() {
     var btn = e('#id-button')
     var textarea = e('#id-textarea')
     var count = 0
+    var oneMsg
+    var runTimer
     bindEvent(btn, 'click', function(e){
         var valueArray = textarea.value.split('\n')
-        this.getMsg(value)
+        var i = 0
+        var runArray = []
+        for (let i = 0; i < valueArray.length; i++) {
+            if (check(valueArray[i])) {
+                runArray.push(check(valueArray[i]))
+            }
+        }
+        // 如果有元素的话
+        if (runArray.length > 0) {
+            //要先立即执行第一次，剩下的再按照次序隔1s执行一次
+            this.getMsg(runArray[i])
+            runTimer = setInterval(function(){
+                i++
+                log(i)
+                if (i < runArray.length) {
+                    this.getMsg(runArray[i])
+                } else {
+                    clearInterval(runTimer)
+                }
+            }.bind(this),1000)
+        }
         //为防止重复调用动画，在点击后将按钮失效，等1s后(动画结束后),再使其有效
-        btn.disabled = true
-        setTimeout(function(){
-            btn.disabled = false
-        },1000)
+        // btn.disabled = true
+        // setTimeout(function(){
+        //     btn.disabled = false
+        // },1000)
     }.bind(this))
 }
-/////////////检查是否为合格的命令
-var check = function() {
-
+/////////////检查是否为合格的命令,如果是，返回这个命令，如果不是，返回false
+var check = function(command) {
+    var orders = ['go','tun lef','tun rig','tun bac','tra lef','tra top','tra rig','tra bot','mov lef','mov top','mov rig','mov bot']
+    var com = command.trim()
+    var comArray = com.split(' ')
+    var last = Number(comArray[comArray.length - 1])
+    var num = 1            //默认等于1
+    if (!isNaN(last) && (parseInt(last) === last)) {
+        comArray.pop()
+        com = comArray.join(' ')
+        num = last
+    }
+    if (orders.includes(com.toLowerCase())) {
+        return {
+            command : com,
+            num : num
+        }
+    } else {
+        return false
+    }
 }
 //////////代码行数列
 var bindInput = function() {
     var ta = e('#id-textarea')
+    var btn = e('#id-refresh')
     var rows = 1
     var rowDiv = e('.row')
-    var orders = ['go','tun lef','tun rig','tun bac','tra lef','tra top','tra rig','tra bot','mov lef','mov top','mov rig','mov bot']
-    //根据总行数添加行数列
-    bindEvent(ta,'input', function(e){
+    // //根据总行数添加行数列
+    // bindEvent(ta,'input', function(e){
+    //     var rowsArray = ta.value.split("\n")
+    //     var newRows = rowsArray.length
+    //     if (newRows > rows) {
+    //         rows = newRows
+    //         appendHtml(rowDiv,`<li>${rows}</li>`)
+    //         // 如果有错误就加上此class,没有就去掉此class
+    //         if (!orders.includes(rowsArray[newRows - 2].toLowerCase())) {
+    //             rowDiv.children[newRows - 2].classList.add('error')
+    //         } else {
+    //             rowDiv.children[newRows - 2].classList.remove('error')
+    //         }
+    //     } else if (newRows < rows) {
+    //         rows = newRows
+    //         rowDiv.lastChild.remove()
+    //     }
+    //     if (ta.value.length === 0) {
+    //         rowDiv.children[0].classList.remove('error')
+    //     }
+    // })
+    //根据每次输入的内容渲染行数列
+    bindEvent(ta, 'input', function(e){
         var rowsArray = ta.value.split("\n")
         var newRows = rowsArray.length
-        if (newRows > rows) {
+        if (newRows !== rows) {
             rows = newRows
-            appendHtml(rowDiv,`<li>${rows}</li>`)
-            // 如果有错误就加上此class,没有就去掉此class
-            if (!orders.includes(rowsArray[newRows - 2].toLowerCase())) {
-                rowDiv.children[newRows - 2].classList.add('error')
-            } else {
-                rowDiv.children[newRows - 2].classList.remove('error')
+            //如果行数有变动,清空行数列，重新渲染这行之前的行数列
+            rowDiv.innerHTML = ''
+            var errorClass
+            for (let i = 0; i < rowsArray.length - 1; i++) {
+                // log(check(rowsArray[i]))
+                // log(check(rowsArray[i]))
+                if (check(rowsArray[i])) {
+                    errorClass = ''
+                } else {
+                    errorClass = 'error'
+                }
+                // var errorClass = orders.includes(rowsArray[i].toLowerCase()) ? '' : 'error'
+                appendHtml(rowDiv,`<li class=${errorClass}>${i + 1}</li>`)
             }
-        } else if (newRows < rows) {
-            rows = newRows
-            rowDiv.lastChild.remove()
-        }
-        if (ta.value.length === 0) {
-            rowDiv.children[0].classList.remove('error')
+            appendHtml(rowDiv,`<li>${rowsArray.length}</li>`)
+            // log(rowsArray)
         }
     })
     //使行数列随着滚动条scroll移动
     bindEvent(ta, 'scroll', function(e){
         rowDiv.style.top = `${-ta.scrollTop}px`
+    })
+    //绑定refresh按键
+    bindEvent(btn, 'click', function(e){
+        rowDiv.innerHTML = '<li>1</li>'
+        ta.value = ''
     })
 }()
 ///
